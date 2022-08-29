@@ -9,6 +9,9 @@ public class DonorDataEntity {
     String accNo;
     String phoneNo;
 
+    public DonorDataEntity() {
+    }
+
     public DonorDataEntity(String donatorID, String donatorName, String donatorEmail, boolean isAnonymous, String phoneNo) {
         this.donatorID = donatorID;
         this.donatorName = donatorName;

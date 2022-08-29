@@ -67,7 +67,6 @@ public class DonateNowFragment extends Fragment {
             }
         });
 
-//        fetchOrphanageDetails();
         fetchOrphanageData();
     }
 
@@ -82,7 +81,6 @@ public class DonateNowFragment extends Fragment {
                     if (document.exists()) {
                         List<OrphanagesDataEntity> oprhanagesDataEntities;
                         List<OrphanageDataEntity> orphanageDataEntityList = new ArrayList<>();
-                        List<StockDetails> stockDataEntityList = new ArrayList<>();
                         oprhanagesDataEntities = (List<OrphanagesDataEntity>) document.getData().get("orphanageDetails");
 
                         Gson gson = new Gson();
@@ -100,26 +98,25 @@ public class DonateNowFragment extends Fragment {
                                 orphanageDataEntity.setUpdatedDate(jsonObject.getString("updatedDate"));
                                 orphanageDataEntity.setAlertIcon(jsonObject.getString("alertIcon"));
                                 orphanageDataEntity.setInventoryLeftValue(jsonObject.getString("inventoryLeftValue"));
-                                orphanageDataEntity.setTotalAmountNeeded(jsonObject.getString("totalAmountNeeded"));
+                                orphanageDataEntity.setTotalItemsRequire(jsonObject.getString("totalItemsRequire"));
                                 orphanageDataEntity.setStockOutDays(jsonObject.getString("stockOutDays"));
-//                                JSONArray stockData = jsonObject.getJSONArray("stockDetails");
-//                                int stockLength = stockData.length();
-//                                for(int a = 0; a <stockLength; a++){
-//                                    StockDetails stockDataEntity = new StockDetails();
-//                                    JSONObject jsonObject1 = stockData.getJSONObject(a);
-//                                    stockDataEntity.setProductName(jsonObject1.getString("productName"));
-//                                    stockDataEntity.setProductImage(jsonObject1.getString("productImage"));
-//                                    stockDataEntity.setCurrentStock(jsonObject1.getString("currentStock"));
-//                                    stockDataEntity.setPrice(jsonObject1.getString("price"));
-//                                    stockDataEntity.setMinStock(jsonObject1.getString("minStock"));
-//                                    stockDataEntityList.add(stockDataEntity);
-//                                }
-//                                setRecycleView(stockDataEntityList);
-//                                orphanageDataEntity.setStockDetails(stockDataEntityList);
+                                JSONArray stockData = jsonObject.getJSONArray("stockDetails");
+                                int stockLength = stockData.length();
+                                List<StockDetails> stockDataEntityList = new ArrayList<>();
+                                for(int a = 0; a <stockLength; a++){
+                                    StockDetails stockDataEntity = new StockDetails();
+                                    JSONObject jsonObject1 = stockData.getJSONObject(a);
+                                    stockDataEntity.setProductName(jsonObject1.getString("productName"));
+                                    stockDataEntity.setProductImage(jsonObject1.getString("productImage"));
+                                    stockDataEntity.setCurrentStock(jsonObject1.getString("currentStock"));
+                                    stockDataEntity.setStockRequire(jsonObject1.getString("stockRequire"));
+                                    stockDataEntity.setMinStock(jsonObject1.getString("minStock"));
+                                    stockDataEntityList.add(stockDataEntity);
+                                }
+                                orphanageDataEntity.setStockDetails(stockDataEntityList);
                                 orphanageDataEntityList.add(orphanageDataEntity);
                             }
                             setRecyclerView(orphanageDataEntityList);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -127,26 +124,6 @@ public class DonateNowFragment extends Fragment {
                 } else {
                     Log.w(TAG, "Error getting documents.", task.getException());
                 }
-            }
-        });
-    }
-
-    private void fetchOrphanageDetails() {
-        databaseReference = database.getReference("orphanagesDetails");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<OrphanagesDataEntity> oprhanagesDataEntities = new ArrayList<>();
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    OrphanagesDataEntity orphanagesDataEntity = ds.getValue(OrphanagesDataEntity.class);
-                    oprhanagesDataEntities.add(orphanagesDataEntity);
-                }
-//                setRecyclerView(oprhanagesDataEntities);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

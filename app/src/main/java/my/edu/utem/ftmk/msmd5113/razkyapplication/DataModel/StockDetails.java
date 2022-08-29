@@ -8,9 +8,9 @@ public class StockDetails {
     @SerializedName("productImage")
     @Expose
     private String productImage;
-    @SerializedName("price")
+    @SerializedName("stockRequire")
     @Expose
-    private String price;
+    private String stockRequire;
     @SerializedName("currentStock")
     @Expose
     private String currentStock;
@@ -29,12 +29,12 @@ public class StockDetails {
         this.productImage = productImage;
     }
 
-    public String getPrice() {
-        return price;
+    public String getStockRequire() {
+        return stockRequire;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setStockRequire(String stockRequire) {
+        this.stockRequire = stockRequire;
     }
 
     public String getCurrentStock() {

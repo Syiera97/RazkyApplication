@@ -9,9 +9,6 @@ public class DonationDetailsDataEntity {
     @SerializedName("orphanageName")
     @Expose
     private String orphanageName;
-    @SerializedName("AccNo")
-    @Expose
-    private String accNo;
     @SerializedName("donorName")
     @Expose
     private String donorName;
@@ -24,28 +21,28 @@ public class DonationDetailsDataEntity {
     @SerializedName("donationItem")
     @Expose
     private List<DonationItem> donationItem = null;
-    @SerializedName("donationAmount")
-    @Expose
-    private String donationAmount;
     @SerializedName("effectiveDate")
     @Expose
     private String effectiveDate;
-    @SerializedName("referenceID")
-    @Expose
-    private String referenceID;
-    @SerializedName("donatorID")
-    @Expose
-    private String donatorID;
     @SerializedName("donatorEmail")
     @Expose
     private String donatorEmail;
+    @SerializedName("noItemsDonated")
+    @Expose
+    private String noItemsDonated;
 
-    public String getDonatorID() {
-        return donatorID;
+    public DonationDetailsDataEntity() {
     }
 
-    public void setDonatorID(String donatorID) {
-        this.donatorID = donatorID;
+    public DonationDetailsDataEntity(String orphanageName, String donorName, Boolean isAnonymous, String phoneNumber, List<DonationItem> donationItem, String effectiveDate, String donatorEmail, String noItemsDonated) {
+        this.orphanageName = orphanageName;
+        this.donorName = donorName;
+        this.isAnonymous = isAnonymous;
+        this.phoneNumber = phoneNumber;
+        this.donationItem = donationItem;
+        this.effectiveDate = effectiveDate;
+        this.donatorEmail = donatorEmail;
+        this.noItemsDonated = noItemsDonated;
     }
 
     public String getOrphanageName() {
@@ -54,14 +51,6 @@ public class DonationDetailsDataEntity {
 
     public void setOrphanageName(String orphanageName) {
         this.orphanageName = orphanageName;
-    }
-
-    public String getAccNo() {
-        return accNo;
-    }
-
-    public void setAccNo(String accNo) {
-        this.accNo = accNo;
     }
 
     public String getDonorName() {
@@ -96,14 +85,6 @@ public class DonationDetailsDataEntity {
         this.donationItem = donationItem;
     }
 
-    public String getDonationAmount() {
-        return donationAmount;
-    }
-
-    public void setDonationAmount(String donationAmount) {
-        this.donationAmount = donationAmount;
-    }
-
     public String getEffectiveDate() {
         return effectiveDate;
     }
@@ -112,19 +93,19 @@ public class DonationDetailsDataEntity {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getReferenceID() {
-        return referenceID;
-    }
-
-    public void setReferenceID(String referenceID) {
-        this.referenceID = referenceID;
-    }
-
     public String getDonatorEmail() {
         return donatorEmail;
     }
 
     public void setDonatorEmail(String donatorEmail) {
         this.donatorEmail = donatorEmail;
+    }
+
+    public String getNoItemsDonated() {
+        return noItemsDonated;
+    }
+
+    public void setNoItemsDonated(String noItemsDonated) {
+        this.noItemsDonated = noItemsDonated;
     }
 }

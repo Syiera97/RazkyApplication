@@ -51,9 +51,9 @@ public class CompletedDonationFragment extends Fragment {
     private void initView() {
         if(getActivity() != null && getActivity() instanceof MainCaretakerActivity){
             donationDetailsDataEntity = ((MainCaretakerActivity) getActivity()).getDonationDetails();
-            reference_ID_val.setText(donationDetailsDataEntity.getReferenceID());
+//            reference_ID_val.setText(donationDetailsDataEntity.getReferenceID());
             donor_name_val.setText(donationDetailsDataEntity.getDonorName());
-            donor_amount_val.setText("RM" + donationDetailsDataEntity.getDonationAmount());
+//            donor_amount_val.setText("RM" + donationDetailsDataEntity.getDonationAmount());
             recepient_name_val.setText(donationDetailsDataEntity.getOrphanageName());
             date_val.setText(donationDetailsDataEntity.getEffectiveDate());
 

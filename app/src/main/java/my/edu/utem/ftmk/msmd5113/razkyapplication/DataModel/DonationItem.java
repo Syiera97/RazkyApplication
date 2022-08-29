@@ -10,9 +10,6 @@ public class DonationItem {
     @SerializedName("quantity")
     @Expose
     private String quantity;
-    @SerializedName("price")
-    @Expose
-    private String price;
     @SerializedName("currentStock")
     @Expose
     private String currentStock;
@@ -37,14 +34,6 @@ public class DonationItem {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
     }
 
     public String getCurrentStock() {

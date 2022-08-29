@@ -12,6 +12,7 @@
         android:hint="@string/enter_your_username"
         android:layout_margin="10dp"
         android:paddingTop="400dp"
+        android:text="test5@gmail.com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -22,6 +23,7 @@
         android:inputType="textPassword"
         android:hint="@string/enter_your_password"
         android:layout_margin="10dp"
+        android:text="123456"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_username"
         app:layout_constraintEnd_toEndOf="parent"/>

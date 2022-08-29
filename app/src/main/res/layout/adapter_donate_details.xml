@@ -12,22 +12,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-    <CheckBox
+    <TextView
         android:id="@+id/item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="@string/nestle_milo_2kg"
         android:textStyle="bold"
         android:textColor="@color/color_666666"
         app:layout_constraintStart_toStartOf="@id/view_item"
         app:layout_constraintTop_toTopOf="@id/view_item"/>
     <TextView
-        android:id="@+id/price_item"
+        android:id="@+id/min_stock_val"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="77dp"
         android:layout_marginTop="20dp"
         android:text="@string/_39_90"
         android:textStyle="bold"
@@ -41,13 +41,13 @@
         android:layout_marginTop="20dp"
         android:text="@string/_2"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/min_stock_val"
+        app:layout_constraintEnd_toStartOf="@id/stock_required"
         app:layout_constraintTop_toTopOf="@id/view_item"/>
     <TextView
-        android:id="@+id/min_stock_val"
+        android:id="@+id/stock_required"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginTop="20dp"
         android:text="@string/_2"
         android:textStyle="bold"
@@ -59,6 +59,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="19dp"
         android:background="@color/grey"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/min_stock_val" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

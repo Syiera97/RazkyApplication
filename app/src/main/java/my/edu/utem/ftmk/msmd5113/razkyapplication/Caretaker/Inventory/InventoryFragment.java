@@ -102,7 +102,7 @@ public class InventoryFragment extends Fragment {
                                 stockDataEntity.setProductName(jsonObject1.getString("productName"));
                                 stockDataEntity.setProductImage(jsonObject1.getString("productImage"));
 //                                    stockDataEntity.setCurrentStock(jsonObject1.getString("currentStock"));
-                                stockDataEntity.setPrice(jsonObject1.getString("price"));
+//                                stockDataEntity.setStockRequire(jsonObject1.getString("stockRequire"));
 //                                    stockDataEntity.setMinStock(jsonObject1.getString("minStock"));
                                 stockDetailsList.add(stockDataEntity);
                             }

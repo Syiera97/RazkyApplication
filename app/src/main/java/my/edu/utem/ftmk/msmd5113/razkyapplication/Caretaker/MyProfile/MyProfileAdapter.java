@@ -45,7 +45,7 @@ public class MyProfileAdapter extends RecyclerView.Adapter<MyProfileAdapter.MyPr
     public void onBindViewHolder(@NonNull MyProfileAdapterViewHolder holder, int i) {
         holder.orphanage_name.setText(donationDetailsDataEntities.get(i).getOrphanageName());
         holder.donation_time.setText(donationDetailsDataEntities.get(i).getEffectiveDate());
-        holder.donation_amount.setText("RM" + donationDetailsDataEntities.get(i).getDonationAmount());
+//        holder.donation_amount.setText("RM" + donationDetailsDataEntities.get(i).getDonationAmount());
     }
 
     @Override

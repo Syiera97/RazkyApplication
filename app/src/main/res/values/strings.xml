@@ -8,11 +8,12 @@
     <string name="_1_day_s">1 day(s)</string>
     <string name="inventory_left">Inventory left</string>
     <string name="_87">87%</string>
-    <string name="total_amount_needed">Total amount \nneeded</string>
+    <string name="total_item_needed">Total items \nrequire</string>
     <string name="rm187_56">RM187.56</string>
     <string name="last_updated_on_3_jun_2022_at_13_27_myt">Last updated on 3 Jun 2022 at 13:27 (MYT)</string>
     <string name="minimum_stock">Minimum \nStock</string>
     <string name="current_stock">Current \nStock</string>
+    <string name="stock_require">Stock \nRequire</string>
     <string name="price_rm">Price \n(RM)</string>
     <string name="nestle_milo_2kg">Nestle Milo (2kg)</string>
     <string name="_39_90">39.90</string>
@@ -70,4 +71,6 @@
     <string name="donation_items">Donation items:</string>
     <string name="view_updates">View Updates</string>
     <string name="sign_out">Sign Out</string>
+    <string name="_15">15</string>
+    <string name="number_of_items_will_be_donated">Number of items will be donated</string>
 </resources>

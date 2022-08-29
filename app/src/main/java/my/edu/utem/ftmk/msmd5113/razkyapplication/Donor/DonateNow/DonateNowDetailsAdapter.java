@@ -44,7 +44,7 @@ public class DonateNowDetailsAdapter extends RecyclerView.Adapter<DonateNowDetai
             holder.tvItem.setText(data.getProductName());
             holder.tvCurrentStock.setText(String.valueOf(data.getCurrentStock()));
             holder.tvMinStock.setText(String.valueOf(data.getMinStock()));
-            holder.tvPrice.setText(String.valueOf(data.getPrice()));
+            holder.tvStockRequire.setText(String.valueOf(data.getStockRequire()));
         }
     }
 
@@ -56,8 +56,8 @@ public class DonateNowDetailsAdapter extends RecyclerView.Adapter<DonateNowDetai
     public class DonateNowDetailsAdapterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item)
         TextView tvItem;
-        @BindView(R.id.price_item)
-        TextView tvPrice;
+        @BindView(R.id.stock_required)
+        TextView tvStockRequire;
         @BindView(R.id.current_stock_val)
         TextView tvCurrentStock;
         @BindView(R.id.min_stock_val)

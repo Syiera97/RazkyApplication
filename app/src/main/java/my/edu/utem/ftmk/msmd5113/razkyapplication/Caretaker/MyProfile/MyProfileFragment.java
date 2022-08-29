@@ -86,14 +86,13 @@ public class MyProfileFragment extends Fragment {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity();
                                 donationDetailsDataEntity.setDonorName(jsonObject.getString("donatorName"));
-                                donationDetailsDataEntity.setDonationAmount(jsonObject.getString("donationAmt"));
-                                donationDetailsDataEntity.setAccNo(jsonObject.getString("accNo"));
+//                                donationDetailsDataEntity.setDonationAmount(jsonObject.getString("donationAmt"));
                                 donationDetailsDataEntity.setAnonymous(jsonObject.getBoolean("isAnonymous"));
-                                donationDetailsDataEntity.setDonatorID(jsonObject.getString("donatorID"));
+//                                donationDetailsDataEntity.setDonatorID(jsonObject.getString("donatorID"));
                                 donationDetailsDataEntity.setEffectiveDate(jsonObject.getString("effectiveDate"));
                                 donationDetailsDataEntity.setPhoneNumber(jsonObject.getString("phoneNo"));
                                 donationDetailsDataEntity.setOrphanageName(jsonObject.getString("orphanageName"));
-                                donationDetailsDataEntity.setReferenceID(jsonObject.getString("referenceID"));
+//                                donationDetailsDataEntity.setReferenceID(jsonObject.getString("referenceID"));
                                 donationDetailsDataEntity.setDonatorEmail(jsonObject.getString("donatorEmail"));
                                 JSONArray donationData = jsonObject.getJSONArray("donationItem");
                                 int donationItemLength = donationData.length();
@@ -102,7 +101,7 @@ public class MyProfileFragment extends Fragment {
                                     JSONObject jsonObject1 = donationData.getJSONObject(a);
                                     donationItem.setProductName(jsonObject1.getString("productName"));
                                     donationItem.setQuantity(jsonObject1.getString("quantity"));
-                                    donationItem.setPrice(jsonObject1.getString("price"));
+//                                    donationItem.setPrice(jsonObject1.getString("price"));
                                     donationItemList.add(donationItem);
                                 }
                                 donationDetailsDataEntity.setDonationItem(donationItemList);

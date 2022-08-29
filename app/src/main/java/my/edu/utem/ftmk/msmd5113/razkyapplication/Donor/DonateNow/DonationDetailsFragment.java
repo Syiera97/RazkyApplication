@@ -15,8 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -33,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationDetailsDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonorDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.OrphanageDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.StockDetails;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
@@ -40,8 +44,6 @@ import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
 public class DonationDetailsFragment extends Fragment {
 
-    @BindView(R.id.btn_request_tac)
-    TextView btnTAC;
     @BindView(R.id.btn_confirm)
     SlideToActView btnConfirm;
     @BindView(R.id.donor_name_val)
@@ -58,11 +60,13 @@ public class DonationDetailsFragment extends Fragment {
     TextView to_acc_val;
     @BindView(R.id.recepient_name_val)
     TextView recepient_name_val;
-    @BindView(R.id.tac_val)
-    TextView tac_val;
 
     AlertDialog.Builder builder;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    String email;
+    OrphanageDataEntity orphanageDataEntity;
+
 
     @Nullable
     @Override
@@ -75,21 +79,23 @@ public class DonationDetailsFragment extends Fragment {
     }
 
     private void initView() {
-        fetchData();
 
+        if(getActivity() != null && getActivity() instanceof MainActivity){
+            orphanageDataEntity = ((MainActivity) getActivity()).getOrphanageDetails();
+        }
 
-        btnTAC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "Succesfully sent the TAC !", Toast.LENGTH_LONG).show();
-            }
-        });
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            email = currentUser.getEmail();
+            fetchUserData(email);
+        }
 
         btnConfirm.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
             @Override
             public void onSlideComplete(@NonNull SlideToActView slideToActView) {
                 builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("You have successfully donate RM XXX").setTitle("Thank you !");
+                builder.setMessage("You have successfully donated " + orphanageDataEntity.getTotalItemsRequire() + " items to " + orphanageDataEntity.getOrphanageName() + ".").setTitle("Thank you !");
                 builder.setCancelable(false);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -103,76 +109,31 @@ public class DonationDetailsFragment extends Fragment {
         });
     }
 
-    private void fetchData() {
+    private void fetchUserData(String email) {
         db = FirebaseFirestore.getInstance();
-        db.collection("donationDetails").document("pK9RlGyf0cW7poXlnL2t")
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("donorDetails").whereEqualTo("donatorEmail", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        try{
-                            List<DonationDetailsDataEntity> donationDetailsDataEntityList;
-                            List<DonationDetailsDataEntity> donationDetailsDataEntities = new ArrayList<>();
-                            List<DonationItem> donationItemList = new ArrayList<>();
-                            Gson gson = new Gson();
-                            donationDetailsDataEntityList = (List<DonationDetailsDataEntity>) document.getData().get("data");
-                            JsonElement jsonElement = gson.toJsonTree(donationDetailsDataEntityList);
-                            JSONArray response = new JSONArray(jsonElement.toString());
-                            int length = response.length();
-                            for(int i = 0; i < length; i++){
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity();
-                                donationDetailsDataEntity.setDonorName(jsonObject.getString("donatorName"));
-                                donationDetailsDataEntity.setDonationAmount(jsonObject.getString("donationAmt"));
-                                donationDetailsDataEntity.setAccNo(jsonObject.getString("accNo"));
-                                donationDetailsDataEntity.setAnonymous(jsonObject.getBoolean("isAnonymous"));
-                                donationDetailsDataEntity.setDonatorID(jsonObject.getString("donatorID"));
-                                donationDetailsDataEntity.setEffectiveDate(jsonObject.getString("effectiveDate"));
-                                donationDetailsDataEntity.setPhoneNumber(jsonObject.getString("phoneNo"));
-                                donationDetailsDataEntity.setOrphanageName(jsonObject.getString("orphanageName"));
-                                donationDetailsDataEntity.setReferenceID(jsonObject.getString("referenceID"));
-                                donationDetailsDataEntity.setDonatorEmail(jsonObject.getString("donatorEmail"));
-//                                JSONArray donationData = jsonObject.getJSONArray("donationItem");
-//                                int donationItemLength = donationData.length();
-//                                for(int a = 0; a <donationItemLength; a++) {
-//                                    DonationItem donationItem = new DonationItem();
-//                                    JSONObject jsonObject1 = donationData.getJSONObject(a);
-//                                    donationItem.setProductName(jsonObject1.getString("productName"));
-//                                    donationItem.setProductImage(jsonObject1.getString("productImage"));
-//                                    donationItem.setQuantity(jsonObject1.getString("quantity"));
-//                                    donationItem.setCurrentStock(jsonObject1.getString("currentStock"));
-//                                    donationItem.setMinStock(jsonObject1.getString("minStock"));
-//                                    donationItem.setPrice(jsonObject1.getString("price"));
-//                                    donationItemList.add(donationItem);
-//                                }
-//                                donationDetailsDataEntity.setDonationItem(donationItemList);
-                                donationDetailsDataEntities.add(donationDetailsDataEntity);
-                            }
-                            setData(donationDetailsDataEntities);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    DonorDataEntity donorDataEntity = new DonorDataEntity();
+                    for(DocumentSnapshot document:task.getResult().getDocuments()){
+                        donorDataEntity.setDonatorName(String.valueOf(document.getData().get("donatorName")));
+                        donorDataEntity.setDonatorEmail(String.valueOf(document.getData().get("donatorEmail")));
+                        donorDataEntity.setPhoneNo(String.valueOf(document.getData().get("phoneNo")));
                     }
+                    ((MainActivity) getActivity()).setDonorDetails(donorDataEntity);
+                    bindUi(donorDataEntity);
                 }
             }
         });
-
     }
 
-    private void setData(List<DonationDetailsDataEntity> donationDetailsDataEntities) {
-        if(donationDetailsDataEntities != null){
-            for(DonationDetailsDataEntity donationDetailsDataEntity : donationDetailsDataEntities){
-                donor_name_val.setText(donationDetailsDataEntity.getDonorName() != null ? donationDetailsDataEntity.getDonorName() : "");
-                donor_email_val.setText(donationDetailsDataEntity.getDonatorEmail() != null ? donationDetailsDataEntity.getDonatorEmail() : "");
-                donor_contact_val.setText(donationDetailsDataEntity.getPhoneNumber() != null ? donationDetailsDataEntity.getPhoneNumber() : "");
-                donor_amount_val.setText(donationDetailsDataEntity.getDonationAmount() != null ? donationDetailsDataEntity.getDonationAmount() : "");
-                from_acc_val.setText(donationDetailsDataEntity.getAccNo() != null ? donationDetailsDataEntity.getAccNo() : "");
-                to_acc_val.setText(donationDetailsDataEntity.getAccNo() != null ? donationDetailsDataEntity.getAccNo() : "");
-                recepient_name_val.setText(donationDetailsDataEntity.getOrphanageName() != null ? donationDetailsDataEntity.getOrphanageName() : "");
-            }
-        }
+    private void bindUi(DonorDataEntity donorDataEntity) {
+        donor_name_val.setText(donorDataEntity.getDonatorName() != null ? donorDataEntity.getDonatorName() : "");
+        donor_email_val.setText(donorDataEntity.getDonatorEmail() != null ? donorDataEntity.getDonatorEmail() : "");
+        donor_contact_val.setText(donorDataEntity.getPhoneNo() != null ? donorDataEntity.getPhoneNo() : "");
+        donor_amount_val.setText(orphanageDataEntity.getTotalItemsRequire());
+        to_acc_val.setText(orphanageDataEntity.getOrphanageName());
     }
+
 }

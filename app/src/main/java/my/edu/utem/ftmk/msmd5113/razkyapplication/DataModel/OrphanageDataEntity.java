@@ -27,9 +27,9 @@ public class OrphanageDataEntity {
     @SerializedName("updatedDate")
     @Expose
     private String updatedDate;
-    @SerializedName("totalAmountNeeded")
+    @SerializedName("totalItemsRequire")
     @Expose
-    private String totalAmountNeeded;
+    private String totalItemsRequire;
     @SerializedName("stockOutDays")
     @Expose
     private String stockOutDays;
@@ -91,11 +91,11 @@ public class OrphanageDataEntity {
         this.updatedDate = updatedDate;
     }
 
-    public String getTotalAmountNeeded() {
-        return totalAmountNeeded;
+    public String getTotalItemsRequire() {
+        return totalItemsRequire;
     }
 
-    public void setTotalAmountNeeded(String totalAmountNeeded) {
-        this.totalAmountNeeded = totalAmountNeeded;
+    public void setTotalItemsRequire(String totalItemsRequire) {
+        this.totalItemsRequire = totalItemsRequire;
     }
 }

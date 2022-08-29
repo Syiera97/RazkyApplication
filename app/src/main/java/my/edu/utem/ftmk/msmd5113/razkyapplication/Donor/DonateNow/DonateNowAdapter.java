@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.OrphanageDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
 public class DonateNowAdapter extends RecyclerView.Adapter<DonateNowAdapter.DonateNowAdapterViewHolder>{
@@ -59,7 +60,7 @@ public class DonateNowAdapter extends RecyclerView.Adapter<DonateNowAdapter.Dona
             }
             holder.inventory_value.setText(data.getInventoryLeftValue());
             holder.stock_out_day_value.setText(data.getStockOutDays());
-            holder.total_amount_value.setText(data.getTotalAmountNeeded());
+            holder.total_item_require.setText(data.getTotalItemsRequire());
         }
     }
 
@@ -81,8 +82,8 @@ public class DonateNowAdapter extends RecyclerView.Adapter<DonateNowAdapter.Dona
         TextView stock_out_day_value;
         @BindView(R.id.inventory_value)
         TextView inventory_value;
-        @BindView(R.id.total_amount_value)
-        TextView total_amount_value;
+        @BindView(R.id.total_item_require)
+        TextView total_item_require;
 
         public DonateNowAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,7 +92,11 @@ public class DonateNowAdapter extends RecyclerView.Adapter<DonateNowAdapter.Dona
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) context).navigateToDetailsFragment();
+                    if(context instanceof MainActivity) {
+                        ((MainActivity) context).navigateToDetailsFragment();
+                        ((MainActivity) context).setStocks(orphanagesDataEntityList.get(getAdapterPosition()).getStockDetails());
+                        ((MainActivity) context).setOrphanageDetails(orphanagesDataEntityList.get(getAdapterPosition()));
+                    }
                 }
             });
         }
