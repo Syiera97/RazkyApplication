@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_registation_donor"
+    android:background="@drawable/login_page_donor"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_name"
+        android:layout_margin="10dp"
+        android:paddingTop="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_ic_number"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_name"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_you_mail"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_id"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_password"
+        android:layout_margin="10dp"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_email"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_phone_number"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/link_to_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/click_here_to_link_your_bank_account_here"
+        android:textAlignment="textEnd"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_phone" />
+
+    <CheckBox
+        android:id="@+id/cb_anonymous"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tick_if_you_want_to_stay_anonymous_when_donating"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/link_to_acc"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.ncorti.slidetoact.SlideToActView
+        android:id="@+id/btn_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:slider_height="60dp"
+        android:layout_gravity="center"
+        app:area_margin="4dp"
+        app:text_style="bold"
+        app:text="SLIDE TO SIGN UP"
+        android:layout_margin="15dp"
+        app:text_size="17sp"
+        app:outer_color="@color/color_17CBEB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cb_anonymous"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btn_confirm"
+        app:layout_constraintStart_toStartOf="@id/btn_confirm"
+        app:layout_constraintEnd_toEndOf="@id/btn_confirm"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

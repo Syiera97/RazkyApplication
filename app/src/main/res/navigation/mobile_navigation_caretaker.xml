@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_caretaker"
+    app:startDestination="@+id/navigation_inventory">
+
+    <fragment
+        android:id="@+id/navigation_inventory"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.Inventory.InventoryFragment"
+        android:label="@string/inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/navigation_my_profile"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.MyProfile.MyProfileFragment"
+        android:label="@string/title_my_profile"
+        tools:layout="@layout/fragment_my_profile_caretaker" />
+
+    <fragment
+        android:id="@+id/navigation_donate_completed"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.MyProfile.CompletedDonationFragment"
+        android:label="Completed Donation History"
+        tools:layout="@layout/fragment_donation_completed"/>
+
+    <fragment
+        android:id="@+id/navigation_sign_up"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.MyProfile.CompletedDonationFragment"
+        android:label="Completed Donation History"
+        tools:layout="@layout/fragment_donation_completed"/>
+
+    <fragment
+        android:id="@+id/navigation_add_product"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.Inventory.AddProduct.AddProductFragment"
+        android:label="Add Product"
+        tools:layout="@layout/fragment_add_product"/>
+</navigation>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/curve_grey_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+        android:id="@+id/orphanage_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rumah_kasih_seksyen_7_shah_alam"
+        android:textStyle="bold"
+        android:layout_margin="15dp"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/view1" />
+    <TextView
+        android:id="@+id/donation_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/donated_on_6_jun_2022_at_12_15_myt"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toBottomOf="@id/orphanage_name" />
+    <TextView
+        android:id="@+id/donation_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rm187_56"
+        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+        android:textStyle="bold"
+        android:layout_margin="15dp"
+        app:layout_constraintEnd_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/view1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

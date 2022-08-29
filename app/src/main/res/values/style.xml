@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyRandomTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_5DAE8C</item>
+        <item name="colorPrimaryDark">@color/color_9CD4BC</item>
+        <item name="android:navigationBarColor">@color/color_5DAE8C</item>
+    </style>
+</resources>

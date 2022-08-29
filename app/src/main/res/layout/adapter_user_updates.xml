@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="15dp"
+    android:background="#4336BDD6">
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/nur_syahirah_binti_abdul_rahman"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/color_0C306C"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/user_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        tools:text="@string/rumah_kasih_syahirah_required_your_help_peeps_do_donate_on_the_neccssary_item_from_the_apps_there_is_one_more_new_orphanage_near_high_school_required_someone_help_to_guide_the_caretaker_to_register_into_the_app_thank_you_3"
+        app:layout_constraintEnd_toEndOf="@id/username"
+        app:layout_constraintBottom_toTopOf="@id/date"
+        app:layout_constraintStart_toStartOf="@id/username"
+        app:layout_constraintTop_toBottomOf="@id/username" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="public 9:51 AM"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@id/user_comment"
+        app:layout_constraintEnd_toEndOf="@id/user_comment"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

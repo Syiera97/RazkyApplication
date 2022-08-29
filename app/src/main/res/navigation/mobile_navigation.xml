@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonateNowFragment"
+        android:label="@string/title_donate_now"
+        tools:layout="@layout/fragment_donate_now" />
+
+    <fragment
+        android:id="@+id/navigation_my_profile"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.MyProfile.MyProfileFragment"
+        android:label="@string/title_my_profile"
+        tools:layout="@layout/fragment_my_profile" />
+
+    <fragment
+        android:id="@+id/navigation_donate_now"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonateNowDetailsFragment"
+        android:label="@string/title_donate_now"
+        tools:layout="@layout/fragment_donate_now_details"/>
+
+    <fragment
+        android:id="@+id/navigation_donate_detail"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonationDetailsFragment"
+        android:label="@string/title_donate_now"
+        tools:layout="@layout/fragment_donation_details"/>
+
+    <fragment
+        android:id="@+id/navigation_donate_completed"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonationCompletedFragment"
+        android:label="@string/title_donate_now"
+        tools:layout="@layout/fragment_donation_completed"/>
+
+    <fragment
+        android:id="@+id/navigation_sign_up"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.SignUp.SignUpDonorActivity"
+        android:label="Sign Up"
+        tools:layout="@layout/fragment_registration_donor"/>
+
+    <fragment
+        android:id="@+id/navigation_donate_nearby"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonateNearbyFragment"
+        android:label="Donate Nearby"
+        tools:layout="@layout/fragment_donate_nearby"/>
+
+</navigation>

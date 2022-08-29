@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "270891982213",
+    "project_id": "razkyapp",
+    "storage_bucket": "razkyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270891982213:android:559c2eeaa48cedab8ab8ec",
+        "android_client_info": {
+          "package_name": "my.edu.utem.ftmk.msmd5113.razkyapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270891982213-dc319kra81pn7riv5fd7fj0pmanepe9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdlPxF88T-Q3XkkxLZXk6iRd_z8T01wzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270891982213-dc319kra81pn7riv5fd7fj0pmanepe9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

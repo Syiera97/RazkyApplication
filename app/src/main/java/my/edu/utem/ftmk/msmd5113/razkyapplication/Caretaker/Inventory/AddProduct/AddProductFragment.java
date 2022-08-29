@@ -1,0 +1,155 @@
+package my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.Inventory.AddProduct;
+
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.StockDetails;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.StockDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
+
+public class AddProductFragment extends Fragment {
+    @BindView(R.id.rv_product)
+    RecyclerView recyclerView;
+    private Menu menuList;
+
+    AddProductAdapter addProductAdapter;
+    private FirebaseFirestore db;
+    private String TAG = "Failed:";
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        this.menuList = menu;
+        menu.findItem(R.id.edit).setVisible(false);
+        menu.findItem(R.id.add).setVisible(false);
+        menu.findItem(R.id.save).setVisible(true);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add_product, container, false);
+        ButterKnife.bind(this, view);
+        container.removeAllViews();
+        initView();
+        return view;
+    }
+
+    private void initView() {
+        setHasOptionsMenu(true);
+        ActionBar actionBar = ((MainCaretakerActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        fetchStocksData();
+    }
+
+    private void fetchStocksData() {
+        db = FirebaseFirestore.getInstance();
+        db.collection("stockDetails").document("qec9mR7LQjTENY6xeAwa")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<StockDetails> stockDetailsList = new ArrayList<>();
+                        List<StockDetails> stockDataEntityList = new ArrayList<>();
+                        stockDataEntityList = (List<StockDetails>) document.getData().get("data");
+
+                        Gson gson = new Gson();
+                        JsonElement jsonElement = gson.toJsonTree(stockDataEntityList);
+
+                        try {
+                            JSONArray response = new JSONArray(jsonElement.toString());
+                            int stockLength = response.length();
+                            for(int a = 0; a <stockLength; a++){
+                                StockDetails stockDataEntity = new StockDetails();
+                                JSONObject jsonObject1 = response.getJSONObject(a);
+                                stockDataEntity.setProductName(jsonObject1.getString("productName"));
+                                stockDataEntity.setProductImage(jsonObject1.getString("productImage"));
+//                                    stockDataEntity.setCurrentStock(jsonObject1.getString("currentStock"));
+                                stockDataEntity.setPrice(jsonObject1.getString("price"));
+//                                    stockDataEntity.setMinStock(jsonObject1.getString("minStock"));
+                                stockDetailsList.add(stockDataEntity);
+                            }
+                            setRecycleView(stockDetailsList);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
+            }
+        });
+    }
+
+    private void setRecycleView(List<StockDetails> stockDataEntityList) {
+        if(addProductAdapter == null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+            addProductAdapter = new AddProductAdapter(getContext(), stockDataEntityList);
+        }else {
+            addProductAdapter.setAdapter(stockDataEntityList);
+        }
+        recyclerView.setAdapter(addProductAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.save:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Date saved successfully!")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //do things
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                hideSaveButton();
+        }
+        return(super.onOptionsItemSelected(item));
+    }
+
+    private void hideSaveButton(){
+        MenuItem item = menuList.findItem(R.id.save);
+        item.setVisible(false);
+    }
+}

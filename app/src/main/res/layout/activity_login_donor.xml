@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_page_donor"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_username"
+        android:layout_margin="10dp"
+        android:paddingTop="400dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/enter_your_password"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_username"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <com.ncorti.slidetoact.SlideToActView
+        android:id="@+id/btn_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:slider_height="60dp"
+        android:layout_gravity="center"
+        app:area_margin="4dp"
+        app:text_style="bold"
+        app:text="SLIDE TO LOGIN"
+        android:layout_margin="15dp"
+        app:text_size="17sp"
+        app:outer_color="@color/color_17CBEB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/tv_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="@string/not_part_of_the_donor_yet_click_here"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/btn_confirm"
+        app:layout_constraintStart_toStartOf="@id/btn_confirm"
+        app:layout_constraintEnd_toEndOf="@id/btn_confirm"/>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_sign_up"
+        app:layout_constraintStart_toStartOf="@id/tv_sign_up"
+        app:layout_constraintEnd_toEndOf="@id/tv_sign_up"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
