@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -28,7 +29,7 @@
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:layout_gravity="center"
-                android:text="@string/nik_harris_putra"/>
+                tools:text="@string/nik_harris_putra"/>
             <TextView
                 android:id="@+id/user_persona"
                 android:layout_width="wrap_content"

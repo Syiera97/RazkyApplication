@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
@@ -29,9 +32,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.CaretakerDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationDetailsDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.MyProfile.DonationHistoryDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
 public class MyProfileFragment extends Fragment {
@@ -42,9 +48,13 @@ public class MyProfileFragment extends Fragment {
     NestedScrollView nestedScrollView;
     @BindView(R.id.switch_persona)
     TextView tvSwitchRole;
+    @BindView(R.id.user_name)
+    TextView userName;
 
     MyProfileAdapter myProfileAdapter;
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    String email;
 
     @Nullable
     @Override
@@ -57,69 +67,61 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void initView() {
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            email = currentUser.getEmail();
+            fetchUserData(email);
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setNestedScrollingEnabled(false);
         nestedScrollView.setNestedScrollingEnabled(true);
 
-        fetchData();
     }
 
-    private void fetchData() {
+    private void fetchUserData(String email) {
         db = FirebaseFirestore.getInstance();
-        db.collection("donationDetails").document("pK9RlGyf0cW7poXlnL2t")
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("caretakerDetails").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        try{
-                            List<DonationDetailsDataEntity> donationDetailsDataEntityList;
-                            List<DonationDetailsDataEntity> donationDetailsDataEntities = new ArrayList<>();
-                            List<DonationItem> donationItemList = new ArrayList<>();
-                            Gson gson = new Gson();
-                            donationDetailsDataEntityList = (List<DonationDetailsDataEntity>) document.getData().get("data");
-                            JsonElement jsonElement = gson.toJsonTree(donationDetailsDataEntityList);
-                            JSONArray response = new JSONArray(jsonElement.toString());
-                            int length = response.length();
-                            for(int i = 0; i < length; i++){
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity();
-                                donationDetailsDataEntity.setDonorName(jsonObject.getString("donatorName"));
-//                                donationDetailsDataEntity.setDonationAmount(jsonObject.getString("donationAmt"));
-                                donationDetailsDataEntity.setAnonymous(jsonObject.getBoolean("isAnonymous"));
-//                                donationDetailsDataEntity.setDonatorID(jsonObject.getString("donatorID"));
-                                donationDetailsDataEntity.setEffectiveDate(jsonObject.getString("effectiveDate"));
-                                donationDetailsDataEntity.setPhoneNumber(jsonObject.getString("phoneNo"));
-                                donationDetailsDataEntity.setOrphanageName(jsonObject.getString("orphanageName"));
-//                                donationDetailsDataEntity.setReferenceID(jsonObject.getString("referenceID"));
-                                donationDetailsDataEntity.setDonatorEmail(jsonObject.getString("donatorEmail"));
-                                JSONArray donationData = jsonObject.getJSONArray("donationItem");
-                                int donationItemLength = donationData.length();
-                                for(int a = 0; a <donationItemLength; a++) {
-                                    DonationItem donationItem = new DonationItem();
-                                    JSONObject jsonObject1 = donationData.getJSONObject(a);
-                                    donationItem.setProductName(jsonObject1.getString("productName"));
-                                    donationItem.setQuantity(jsonObject1.getString("quantity"));
-//                                    donationItem.setPrice(jsonObject1.getString("price"));
-                                    donationItemList.add(donationItem);
-                                }
-                                donationDetailsDataEntity.setDonationItem(donationItemList);
-                                donationDetailsDataEntities.add(donationDetailsDataEntity);
-                            }
-                            setRecycleView(donationDetailsDataEntities);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    CaretakerDataEntity caretakerDataEntity = new CaretakerDataEntity();
+                    for(DocumentSnapshot document:task.getResult().getDocuments()){
+                        caretakerDataEntity.setCaretakerName(String.valueOf(document.getData().get("caretakerName")));
+                        caretakerDataEntity.setEmail(String.valueOf(document.getData().get("email")));
+                        caretakerDataEntity.setOrphanageName(String.valueOf(document.getData().get("orphanageName")));
                     }
+
+                    userName.setText(caretakerDataEntity.getCaretakerName());
+                    fetchHistoryData(caretakerDataEntity.getOrphanageName());
                 }
             }
-
         });
-
     }
 
+    private void fetchHistoryData(String orphanageName) {
+        db = FirebaseFirestore.getInstance();
+        db.collection("completedDonationDetails").whereEqualTo("orphanageName", orphanageName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<DonationDetailsDataEntity> donationDetailsDataEntityList = new ArrayList<>();
+                    for(DocumentSnapshot document : task.getResult().getDocuments()){
+                        DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity();
+                        donationDetailsDataEntity.setDonatorEmail(String.valueOf(document.getData().get("donatorEmail")));
+                        donationDetailsDataEntity.setOrphanageName(String.valueOf(document.getData().get("orphanageName")));
+                        donationDetailsDataEntity.setDonorName(String.valueOf(document.getData().get("donorName")));
+                        donationDetailsDataEntity.setEffectiveDate(String.valueOf(document.getData().get("effectiveDate")));
+                        donationDetailsDataEntity.setNoItemsDonated(String.valueOf(document.getData().get("noItemsDonated")));
+                        donationDetailsDataEntity.setDonationItem((List<DonationItem>) document.getData().get("donationItem"));
+                        donationDetailsDataEntityList.add(donationDetailsDataEntity);
+                    }
+                    setRecycleView(donationDetailsDataEntityList);
+                }
+            }
+        });
+    }
 
     private void setRecycleView(List<DonationDetailsDataEntity> donationDetailsDataEntityList){
         if(myProfileAdapter == null) {

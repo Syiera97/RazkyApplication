@@ -12,12 +12,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.CaretakerDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationDetailsDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonorDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
@@ -51,9 +63,7 @@ public class CompletedDonationFragment extends Fragment {
     private void initView() {
         if(getActivity() != null && getActivity() instanceof MainCaretakerActivity){
             donationDetailsDataEntity = ((MainCaretakerActivity) getActivity()).getDonationDetails();
-//            reference_ID_val.setText(donationDetailsDataEntity.getReferenceID());
             donor_name_val.setText(donationDetailsDataEntity.getDonorName());
-//            donor_amount_val.setText("RM" + donationDetailsDataEntity.getDonationAmount());
             recepient_name_val.setText(donationDetailsDataEntity.getOrphanageName());
             date_val.setText(donationDetailsDataEntity.getEffectiveDate());
 
