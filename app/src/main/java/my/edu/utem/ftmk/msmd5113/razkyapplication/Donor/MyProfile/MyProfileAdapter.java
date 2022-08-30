@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,17 +42,23 @@ public class MyProfileAdapter extends RecyclerView.Adapter<MyProfileAdapter.MyPr
 
     @Override
     public void onBindViewHolder(@NonNull MyProfileAdapter.MyProfileAdapterViewHolder myProfileAdapterViewHolder, int i) {
-
+        myProfileAdapterViewHolder.orphanage_name.setText(donationHistoryDataEntityList.get(i).getOrphanageNamee());
+        myProfileAdapterViewHolder.donation_time.setText(donationHistoryDataEntityList.get(i).getDonatedDate());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return donationHistoryDataEntityList.size();
     }
 
     public class MyProfileAdapterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.view1)
         View view;
+        @BindView(R.id.orphanage_name)
+        TextView orphanage_name;
+        @BindView(R.id.donation_time)
+        TextView donation_time;
+
         public MyProfileAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -59,7 +66,8 @@ public class MyProfileAdapter extends RecyclerView.Adapter<MyProfileAdapter.MyPr
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) context).navigateToDonationCompletedFragment();
+                    ((MainActivity) context).navigateToDonationHistoryFragment();
+                    ((MainActivity) context).setSelectedOrphanage(donationHistoryDataEntityList.get(getAdapterPosition()).getOrphanageNamee());
                 }
             });
         }

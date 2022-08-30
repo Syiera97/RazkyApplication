@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     List<StockDetails> stockDataEntityList = new ArrayList<>();
     OrphanageDataEntity orphanageDataEntity;
     DonorDataEntity donorDetails;
+    String selectedOrphanage;
+    List<DonationDetailsDataEntity> donationDetailsDataEntityList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
         navController.navigate(R.id.navigation_donate_completed);
     }
 
+    public void navigateToDonationHistoryFragment() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        navController.navigateUp();
+        navController.navigate(R.id.navigation_donate_history);
+    }
+
     public void navigateToDonateNearbyFragment() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         navController.navigateUp();
@@ -136,5 +144,21 @@ public class MainActivity extends AppCompatActivity {
 
     public DonorDataEntity getDonorDataEntity(){
         return donorDetails;
+    }
+
+    public void setDonationDetailsDataEntityList(List<DonationDetailsDataEntity> donationDetailsDataEntities){
+        donationDetailsDataEntityList = donationDetailsDataEntities;
+    }
+
+    public List<DonationDetailsDataEntity> getDonationHistory(){
+         return donationDetailsDataEntityList;
+    }
+
+    public void setSelectedOrphanage(String name){
+        selectedOrphanage = name;
+    }
+
+    public String getSelectedOrphanage(){
+        return selectedOrphanage;
     }
 }

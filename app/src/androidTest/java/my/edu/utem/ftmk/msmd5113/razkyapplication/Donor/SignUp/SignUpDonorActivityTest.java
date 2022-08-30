@@ -10,23 +10,31 @@ import androidx.test.rule.ActivityTestRule;
 
 import junit.framework.TestCase;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import kotlin.jvm.JvmField;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
-public class SignUpDonorActivityTest extends TestCase {
+public class SignUpDonorActivityTest {
+    private SignUpDonorActivity signUpDonorActivity = null;
 
     @Rule
-    public ActivityTestRule mActivityRule = new ActivityTestRule(SignUpDonorActivity.class);
+    public ActivityTestRule<SignUpDonorActivity> mActivityTestRule = new ActivityTestRule<SignUpDonorActivity>(SignUpDonorActivity.class);
+
+    @Before
+    public void setUp() throws Exception {
+        signUpDonorActivity = mActivityTestRule.getActivity();
+    }
 
     @Test
-    public void activityLaunch(){
+    public void testActivityLaunch(){
         onView(withId(R.id.btn_confirm)).perform(click());
     }
 
     @Test
-    public void textInput(){
+    public void testTextInput(){
         onView(withId(R.id.et_name)).perform(typeText("Syahirah"), closeSoftKeyboard());
         onView(withId(R.id.et_id)).perform(typeText("980706209876"), closeSoftKeyboard());
         onView(withId(R.id.et_email)).perform(typeText("syahirah@gmail.com"), closeSoftKeyboard());

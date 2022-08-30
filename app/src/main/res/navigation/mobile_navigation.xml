@@ -47,4 +47,10 @@
         android:label="Donate Nearby"
         tools:layout="@layout/fragment_donate_nearby"/>
 
+    <fragment
+        android:id="@+id/navigation_donate_history"
+        android:name="my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.MyProfile.DonationHistoryFragment"
+        android:label="@string/title_donate_now"
+        tools:layout="@layout/fragment_donation_completed"/>
+
 </navigation>

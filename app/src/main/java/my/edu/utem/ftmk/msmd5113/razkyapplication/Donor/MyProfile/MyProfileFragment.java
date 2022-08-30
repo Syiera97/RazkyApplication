@@ -15,15 +15,28 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.DonateNowDetailsAdapter;
-import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.StockDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationDetailsDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonorDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
-import my.edu.utem.ftmk.msmd5113.razkyapplication.SplashActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.SplashCaretakerActivity;
 
 public class MyProfileFragment extends Fragment {
@@ -34,8 +47,14 @@ public class MyProfileFragment extends Fragment {
     NestedScrollView nestedScrollView;
     @BindView(R.id.switch_persona)
     TextView tvSwitchRole;
+    @BindView(R.id.user_name)
+    TextView user_name;
 
+    DonorDataEntity donorDataEntity;
     MyProfileAdapter myProfileAdapter;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    String email;
 
     @Nullable
     @Override
@@ -47,17 +66,62 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void initView() {
+        if(getActivity() != null && getActivity() instanceof MainActivity) {
+            donorDataEntity = ((MainActivity) getActivity()).getDonorDataEntity();
+        }
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            email = currentUser.getEmail();
+            fetchHistoryData(email);
+        }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setNestedScrollingEnabled(false);
         nestedScrollView.setNestedScrollingEnabled(true);
 
-        List<DonationHistoryDataEntity> donationHistoryDataEntityList = new ArrayList<>();
-        DonationHistoryDataEntity donationHistoryDataEntity = new DonationHistoryDataEntity();
-        donationHistoryDataEntity.setOrphanageNamee("Rumah Amal Budi Bestari");
-        donationHistoryDataEntity.setDonatedDate("Donated on 6 Jun 12:49 (MYT)");
-        donationHistoryDataEntityList.add(donationHistoryDataEntity);
-        setRecycleView(donationHistoryDataEntityList);
+        switchBtnClicked();
+    }
 
+    private void fetchHistoryData(String email) {
+        db = FirebaseFirestore.getInstance();
+        db.collection("completedDonationDetails").whereEqualTo("donatorEmail", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<DonationDetailsDataEntity> donationDetailsDataEntityList = new ArrayList<>();
+                    for(DocumentSnapshot document : task.getResult().getDocuments()){
+                        DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity();
+                        donationDetailsDataEntity.setDonatorEmail(String.valueOf(document.getData().get("donatorEmail")));
+                        donationDetailsDataEntity.setOrphanageName(String.valueOf(document.getData().get("orphanageName")));
+                        donationDetailsDataEntity.setDonorName(String.valueOf(document.getData().get("donorName")));
+                        donationDetailsDataEntity.setEffectiveDate(String.valueOf(document.getData().get("effectiveDate")));
+                        donationDetailsDataEntity.setNoItemsDonated(String.valueOf(document.getData().get("noItemsDonated")));
+                        donationDetailsDataEntity.setDonationItem((List<DonationItem>) document.getData().get("donationItem"));
+                        donationDetailsDataEntityList.add(donationDetailsDataEntity);
+                    }
+                    bindUi(donationDetailsDataEntityList);
+                    ((MainActivity) getActivity()).setDonationDetailsDataEntityList(donationDetailsDataEntityList);
+
+                }
+            }
+        });
+    }
+
+    private void bindUi(List<DonationDetailsDataEntity> donationDetailsDataEntityList) {
+        List<DonationHistoryDataEntity> donationHistoryDataEntityList = new ArrayList<>();
+        for(DonationDetailsDataEntity donationDetailsDataEntity1 : donationDetailsDataEntityList){
+            user_name.setText(donationDetailsDataEntity1.getDonorName());
+            DonationHistoryDataEntity donationHistoryDataEntity = new DonationHistoryDataEntity();
+            donationHistoryDataEntity.setOrphanageNamee(donationDetailsDataEntity1.getOrphanageName());
+            donationHistoryDataEntity.setDonatedDate(donationDetailsDataEntity1.getEffectiveDate());
+            donationHistoryDataEntityList.add(donationHistoryDataEntity);
+        }
+        setRecycleView(donationHistoryDataEntityList);
+    }
+
+    private void switchBtnClicked() {
         tvSwitchRole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
