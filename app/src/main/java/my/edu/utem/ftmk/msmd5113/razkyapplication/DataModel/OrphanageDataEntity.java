@@ -34,6 +34,20 @@ public class OrphanageDataEntity {
     @Expose
     private String stockOutDays;
 
+    public OrphanageDataEntity() {
+    }
+
+    public OrphanageDataEntity(String orphanageName, List<StockDetails> stockDetails, String inventoryLeftValue, String createdDate, String alertIcon, String updatedDate, String totalItemsRequire, String stockOutDays) {
+        this.orphanageName = orphanageName;
+        this.stockDetails = stockDetails;
+        this.inventoryLeftValue = inventoryLeftValue;
+        this.createdDate = createdDate;
+        this.alertIcon = alertIcon;
+        this.updatedDate = updatedDate;
+        this.totalItemsRequire = totalItemsRequire;
+        this.stockOutDays = stockOutDays;
+    }
+
     public String getOrphanageName() {
         return orphanageName;
     }

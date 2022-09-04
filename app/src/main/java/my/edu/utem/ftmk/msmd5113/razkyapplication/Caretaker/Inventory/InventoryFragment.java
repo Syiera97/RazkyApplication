@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
@@ -32,9 +35,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.OrphanageDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.StockDetails;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.OrphanagesDataEntity;
@@ -46,6 +51,11 @@ public class InventoryFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_no_data)
+    TextView tvNoData;
+    @BindView(R.id.img_no_data)
+    ImageView imgNoData;
+
     InventoryAdapter inventoryAdapter;
     private Menu menuList;
     private FirebaseFirestore db;
@@ -74,46 +84,23 @@ public class InventoryFragment extends Fragment {
         ActionBar actionBar = ((MainCaretakerActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
 
-        fetchStocksData();
+        fetchStockData();
     }
 
-    private void fetchStocksData() {
+    private void fetchStockData() {
         db = FirebaseFirestore.getInstance();
-        db.collection("stockDetails").document("qec9mR7LQjTENY6xeAwa")
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("orphanageDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        List<StockDetails> stockDetailsList = new ArrayList<>();
-                        List<StockDetails> stockDataEntityList = new ArrayList<>();
-                        stockDataEntityList = (List<StockDetails>) document.getData().get("data");
-
-                        Gson gson = new Gson();
-                        JsonElement jsonElement = gson.toJsonTree(stockDataEntityList);
-
-                        try {
-                            JSONArray response = new JSONArray(jsonElement.toString());
-                            int stockLength = response.length();
-                            for(int a = 0; a <stockLength; a++){
-                                StockDetails stockDataEntity = new StockDetails();
-                                JSONObject jsonObject1 = response.getJSONObject(a);
-                                stockDataEntity.setProductName(jsonObject1.getString("productName"));
-                                stockDataEntity.setProductImage(jsonObject1.getString("productImage"));
-//                                    stockDataEntity.setCurrentStock(jsonObject1.getString("currentStock"));
-//                                stockDataEntity.setStockRequire(jsonObject1.getString("stockRequire"));
-//                                    stockDataEntity.setMinStock(jsonObject1.getString("minStock"));
-                                stockDetailsList.add(stockDataEntity);
-                            }
-                            setRecycleView(stockDetailsList);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    imgNoData.setVisibility(View.GONE);
+                    tvNoData.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    List<StockDetails> stockDataEntityList = new ArrayList<>();
+                    for(DocumentSnapshot document:task.getResult().getDocuments()){
+                        stockDataEntityList = (List<StockDetails>) document.getData().get("stockDetails");
                     }
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.getException());
+                    setRecycleView(stockDataEntityList);
                 }
             }
         });

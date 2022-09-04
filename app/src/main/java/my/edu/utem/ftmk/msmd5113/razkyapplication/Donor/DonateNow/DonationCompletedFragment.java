@@ -111,7 +111,8 @@ public class DonationCompletedFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = sdf.format(c.getTime());
 
-        DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity(orphanageDataEntity.getOrphanageName(), donorDataEntity.getDonatorName(), false, donorDataEntity.getPhoneNo(), donationItemList,  strDate, donorDataEntity.getDonatorEmail(), orphanageDataEntity.getTotalItemsRequire());
+        DonationDetailsDataEntity donationDetailsDataEntity = new DonationDetailsDataEntity(orphanageDataEntity.getOrphanageName(), donorDataEntity.getDonatorName(),
+                false, donorDataEntity.getPhoneNo(), donationItemList,  strDate, donorDataEntity.getDonatorEmail(), orphanageDataEntity.getTotalItemsRequire());
         db = FirebaseFirestore.getInstance();
 
         CollectionReference dbDonor = db.collection("completedDonationDetails");

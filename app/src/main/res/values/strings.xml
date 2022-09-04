@@ -73,4 +73,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="_15">15</string>
     <string name="number_of_items_will_be_donated">Number of items will be donated</string>
+    <string name="no_product_available_please_add_new_product">No product available. Please add new product.</string>
+    <string name="current_stock_">Current Stock</string>
+    <string name="minimum_stock_">Minimum Stock</string>
 </resources>

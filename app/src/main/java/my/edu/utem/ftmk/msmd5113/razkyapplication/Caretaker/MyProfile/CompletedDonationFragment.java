@@ -66,7 +66,7 @@ public class CompletedDonationFragment extends Fragment {
             donor_name_val.setText(donationDetailsDataEntity.getDonorName());
             recepient_name_val.setText(donationDetailsDataEntity.getOrphanageName());
             date_val.setText(donationDetailsDataEntity.getEffectiveDate());
-
+            donor_amount_val.setText(donationDetailsDataEntity.getNoItemsDonated());
             setRecycleView(donationDetailsDataEntity.getDonationItem());
         }
     }

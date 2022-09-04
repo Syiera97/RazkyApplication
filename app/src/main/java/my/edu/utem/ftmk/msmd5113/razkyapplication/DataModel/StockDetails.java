@@ -3,6 +3,8 @@ package my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class StockDetails {
 
     @SerializedName("productImage")
@@ -20,6 +22,17 @@ public class StockDetails {
     @SerializedName("minStock")
     @Expose
     private String minStock;
+
+    public StockDetails() {
+    }
+
+    public StockDetails(Map<String, String> map) {
+        this.productImage = map.get("productImage");
+        this.stockRequire = map.get("stockRequire");
+        this.currentStock = map.get("currentStock");
+        this.productName = map.get("productName");
+        this.minStock = map.get("minStock");
+    }
 
     public String getProductImage() {
         return productImage;

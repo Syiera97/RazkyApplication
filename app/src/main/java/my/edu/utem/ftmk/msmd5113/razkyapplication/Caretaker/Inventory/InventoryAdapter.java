@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.StockDetails;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.DonateNow.StockDataEntity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
@@ -66,9 +68,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         }else{
             holder.counterLayout.setVisibility(View.GONE);
         }
+        StockDetails data = new StockDetails((Map<String, String>) stockDataEntityList.get(position));
+        holder.imageName.setText(data.getProductName());
+        holder.current_stock_val.setText(data.getCurrentStock());
+        holder.min_stock_val.setText(data.getMinStock());
+        holder.stock_require_val.setText(data.getStockRequire());
 
-        holder.imageName.setText(stockDataEntityList.get(position).getProductName());
-        Glide.with(context).load(stockDataEntityList.get(position).getProductImage()).into(holder.imageItem);
+        Glide.with(context).load(data.getProductImage()).into(holder.imageItem);
 
         new Thread(new Runnable() {
             public void run() {
@@ -116,8 +122,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
         TextView imageName;
         @BindView(R.id.imageItem)
         ImageView imageItem;
-//        @BindView(R.id.imageName)
-//        TextView price;
+        @BindView(R.id.current_stock_val)
+        TextView current_stock_val;
+        @BindView(R.id.min_stock_val)
+        TextView min_stock_val;
+        @BindView(R.id.stock_require_val)
+        TextView stock_require_val;
 
         public InventoryViewHolder(@NonNull View itemView) {
             super(itemView);

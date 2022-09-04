@@ -86,7 +86,8 @@ public class MyProfileFragment extends Fragment {
 
     private void fetchHistoryData(String email) {
         db = FirebaseFirestore.getInstance();
-        db.collection("completedDonationDetails").whereEqualTo("donatorEmail", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("completedDonationDetails").whereEqualTo("donatorEmail", email).get().
+                addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){

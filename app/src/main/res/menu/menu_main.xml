@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/edit" android:icon="@drawable/ic_edit" app:showAsAction="withText"   android:title="@string/add_product"/>
+        android:id="@+id/add" android:icon="@drawable/ic_edit" app:showAsAction="withText"   android:title="@string/add_product"/>
     <item
         android:id="@+id/save" android:icon="@drawable/ic_check" android:visible="false" app:showAsAction="always"   android:title="@string/save"/>
     <item
-        android:id="@+id/add" android:icon="@drawable/ic_add" app:showAsAction="withText" android:title="@string/edit_product"/>
+        android:id="@+id/edit" android:icon="@drawable/ic_add" app:showAsAction="withText" android:title="@string/edit_product"/>
     <item
         android:id="@+id/logOut" android:icon="@drawable/ic_add" app:showAsAction="withText" android:title="@string/sign_out"/>
 </menu>
