@@ -46,9 +46,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -169,7 +171,7 @@ public class DonateNearbyFragment extends Fragment implements OnMapReadyCallback
         dbDonor.add(userComments).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(), "Your details has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Data added into Firebase Firestore successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -254,7 +256,17 @@ public class DonateNearbyFragment extends Fragment implements OnMapReadyCallback
             protected void onBindViewHolder(CommentsHolder holder, int position, UserComments userComments) {
                 holder.username.setText(userComments.getUsername());
                 holder.user_comment.setText(userComments.getComment());
-                holder.date.setText(userComments.getDateTime());
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                try {
+                    Date date = format.parse(userComments.getDateTime());
+                    format = new SimpleDateFormat("dd MMM yyyy 'at' hh:mm a");
+                    String strDate = format.format(date);
+                    holder.date.setText(strDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @NonNull

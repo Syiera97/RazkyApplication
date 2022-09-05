@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
@@ -67,7 +68,37 @@ public class DonateNowFragment extends Fragment {
             }
         });
 
-        fetchOrphanageData();
+//        fetchOrphanageData();
+        fetchOrphanageDetails();
+    }
+
+    private void fetchOrphanageDetails(){
+        db = FirebaseFirestore.getInstance();
+        db.collection("orphanageDetails").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    List<OrphanageDataEntity> orphanageDataEntityList = new ArrayList<>();
+                    List<StockDetails> stockDataEntityList = new ArrayList<>();
+                    for(DocumentSnapshot document:task.getResult().getDocuments()){
+                        OrphanageDataEntity orphanageDataEntity = new OrphanageDataEntity();
+                        orphanageDataEntity.setDbKey(document.getId());
+                        orphanageDataEntity.setOrphanageName(String.valueOf(document.getData().get("orphanageName")));
+                        orphanageDataEntity.setStockOutDays(String.valueOf(document.getData().get("stockOutDays")));
+                        orphanageDataEntity.setUpdatedDate(String.valueOf(document.getData().get("updatedDate")));
+                        orphanageDataEntity.setCreatedDate(String.valueOf(document.getData().get("createdDate")));
+                        orphanageDataEntity.setAlertIcon(String.valueOf(document.getData().get("alertIcon")));
+                        orphanageDataEntity.setInventoryLeftValue(String.valueOf(document.getData().get("inventoryLeftValue")));
+                        orphanageDataEntity.setTotalItemsRequire(String.valueOf(document.getData().get("totalItemsRequire")));
+                        stockDataEntityList = (List<StockDetails>) document.getData().get("stockDetails");
+                        orphanageDataEntity.setStockDetails(stockDataEntityList);
+                        orphanageDataEntityList.add(orphanageDataEntity);
+                    }
+                    setRecyclerView(orphanageDataEntityList);
+                }
+            }
+        });
     }
 
     private void fetchOrphanageData() {

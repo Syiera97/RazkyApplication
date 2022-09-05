@@ -20,7 +20,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,7 +68,16 @@ public class CompletedDonationFragment extends Fragment {
             donationDetailsDataEntity = ((MainCaretakerActivity) getActivity()).getDonationDetails();
             donor_name_val.setText(donationDetailsDataEntity.getDonorName());
             recepient_name_val.setText(donationDetailsDataEntity.getOrphanageName());
-            date_val.setText(donationDetailsDataEntity.getEffectiveDate());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            try {
+                Date date = format.parse(donationDetailsDataEntity.getEffectiveDate());
+                format = new SimpleDateFormat("dd MMM yyyy 'at' hh:mm a");
+                String strDate = format.format(date);
+                date_val.setText(strDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             donor_amount_val.setText(donationDetailsDataEntity.getNoItemsDonated());
             setRecycleView(donationDetailsDataEntity.getDonationItem());
         }

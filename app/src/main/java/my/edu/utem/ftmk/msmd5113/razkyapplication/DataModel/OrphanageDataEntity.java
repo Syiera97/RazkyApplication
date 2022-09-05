@@ -33,6 +33,9 @@ public class OrphanageDataEntity {
     @SerializedName("stockOutDays")
     @Expose
     private String stockOutDays;
+    @SerializedName("dbKey")
+    @Expose
+    private String dbKey;
 
     public OrphanageDataEntity() {
     }
@@ -111,5 +114,13 @@ public class OrphanageDataEntity {
 
     public void setTotalItemsRequire(String totalItemsRequire) {
         this.totalItemsRequire = totalItemsRequire;
+    }
+
+    public String getDbKey() {
+        return dbKey;
+    }
+
+    public void setDbKey(String dbKey) {
+        this.dbKey = dbKey;
     }
 }

@@ -112,10 +112,10 @@ public class LoginCaretakerActivity extends AppCompatActivity {
                             public void onComplete(
                                     @NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Login successful!!",
-                                            Toast.LENGTH_LONG)
-                                            .show();
+//                                    Toast.makeText(getApplicationContext(),
+//                                            "Login successful!!",
+//                                            Toast.LENGTH_LONG)
+//                                            .show();
 
                                     // hide the progress bar
                                     progressBar.setVisibility(View.GONE);

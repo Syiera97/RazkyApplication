@@ -60,6 +60,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"/>
+            <ImageView
+                android:id="@+id/img_no_data"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/ic_no_data_history"/>
+            <TextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="@string/no_history_donation_data_yet_please_make_some_donation" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

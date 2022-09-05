@@ -1,6 +1,8 @@
 package my.edu.utem.ftmk.msmd5113.razkyapplication.Caretaker.MyProfile;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,8 @@ import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.MyProfile.DonationHistor
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.MainCaretakerActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.SplashActivity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.SplashCaretakerActivity;
 
 public class MyProfileFragment extends Fragment {
 
@@ -78,6 +82,7 @@ public class MyProfileFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         nestedScrollView.setNestedScrollingEnabled(true);
 
+        switchBtnClicked();
     }
 
     private void fetchUserData(String email) {
@@ -96,6 +101,31 @@ public class MyProfileFragment extends Fragment {
                     userName.setText(caretakerDataEntity.getCaretakerName());
                     fetchHistoryData(caretakerDataEntity.getOrphanageName());
                 }
+            }
+        });
+    }
+
+    private void switchBtnClicked() {
+        tvSwitchRole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Thread background = new Thread() {
+                    public void run() {
+                        try {
+                            sleep(500);
+                            Intent i=new Intent(getActivity().getBaseContext(), SplashActivity.class);
+                            startActivity(i);
+
+                            //Remove activity
+                            getActivity().finish();
+                        } catch (Exception e) {
+                            Log.e("Error", String.valueOf(e));
+                        }
+                    }
+                };
+                // start thread
+                background.start();
+
             }
         });
     }

@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +45,9 @@ public class DonateNearbyAdapter extends RecyclerView.Adapter<DonateNearbyAdapte
     public void onBindViewHolder(@NonNull DonateNearbyAdapterViewHolder holder, int position) {
         holder.username.setText(userCommentsList.get(position).getUsername());
         holder.user_comment.setText(userCommentsList.get(position).getComment());
-        holder.date.setText(userCommentsList.get(position).getDateTime());
+        SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String strDate = format.format(userCommentsList.get(position).getDateTime());
+        holder.date.setText(strDate);
     }
 
     @Override

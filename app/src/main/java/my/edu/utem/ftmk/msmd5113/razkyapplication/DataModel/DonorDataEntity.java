@@ -12,8 +12,7 @@ public class DonorDataEntity {
     public DonorDataEntity() {
     }
 
-    public DonorDataEntity(String donatorID, String donatorName, String donatorEmail, boolean isAnonymous, String phoneNo) {
-        this.donatorID = donatorID;
+    public DonorDataEntity(String donatorName, String donatorEmail, boolean isAnonymous, String phoneNo) {
         this.donatorName = donatorName;
         this.donatorEmail = donatorEmail;
         this.isAnonymous = isAnonymous;

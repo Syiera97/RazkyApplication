@@ -49,9 +49,6 @@ public class DonateNowDetailsFragment extends Fragment {
     SlideToActView btnDonate;
 
     private DonateNowDetailsAdapter donateNowDetailsAdapter;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference();
-    private FirebaseFirestore db;
     List<StockDetails> stockDataEntityList;
 
     @Nullable

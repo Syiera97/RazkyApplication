@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +46,16 @@ public class MyProfileAdapter extends RecyclerView.Adapter<MyProfileAdapter.MyPr
     @Override
     public void onBindViewHolder(@NonNull MyProfileAdapter.MyProfileAdapterViewHolder myProfileAdapterViewHolder, int i) {
         myProfileAdapterViewHolder.orphanage_name.setText(donationHistoryDataEntityList.get(i).getOrphanageNamee());
-        myProfileAdapterViewHolder.donation_time.setText(donationHistoryDataEntityList.get(i).getDonatedDate());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            Date date = format.parse(donationHistoryDataEntityList.get(i).getDonatedDate());
+            format = new SimpleDateFormat("dd MMM yyyy 'at' hh:mm a");
+            String strDate = format.format(date);
+            myProfileAdapterViewHolder.donation_time.setText(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

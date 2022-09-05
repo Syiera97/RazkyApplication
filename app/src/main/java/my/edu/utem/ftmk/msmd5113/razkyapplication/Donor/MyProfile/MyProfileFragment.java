@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,10 @@ public class MyProfileFragment extends Fragment {
     TextView tvSwitchRole;
     @BindView(R.id.user_name)
     TextView user_name;
+    @BindView(R.id.tv_no_data)
+    TextView tvNoData;
+    @BindView(R.id.img_no_data)
+    ImageView imgNoData;
 
     DonorDataEntity donorDataEntity;
     MyProfileAdapter myProfileAdapter;
@@ -104,22 +109,30 @@ public class MyProfileFragment extends Fragment {
                     }
                     bindUi(donationDetailsDataEntityList);
                     ((MainActivity) getActivity()).setDonationDetailsDataEntityList(donationDetailsDataEntityList);
-
                 }
             }
         });
     }
 
     private void bindUi(List<DonationDetailsDataEntity> donationDetailsDataEntityList) {
-        List<DonationHistoryDataEntity> donationHistoryDataEntityList = new ArrayList<>();
-        for(DonationDetailsDataEntity donationDetailsDataEntity1 : donationDetailsDataEntityList){
-            user_name.setText(donationDetailsDataEntity1.getDonorName());
-            DonationHistoryDataEntity donationHistoryDataEntity = new DonationHistoryDataEntity();
-            donationHistoryDataEntity.setOrphanageNamee(donationDetailsDataEntity1.getOrphanageName());
-            donationHistoryDataEntity.setDonatedDate(donationDetailsDataEntity1.getEffectiveDate());
-            donationHistoryDataEntityList.add(donationHistoryDataEntity);
+        if(donationDetailsDataEntityList != null && donationDetailsDataEntityList.size() > 1) {
+            tvNoData.setVisibility(View.GONE);
+            imgNoData.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            List<DonationHistoryDataEntity> donationHistoryDataEntityList = new ArrayList<>();
+            for (DonationDetailsDataEntity donationDetailsDataEntity1 : donationDetailsDataEntityList) {
+                user_name.setText(donationDetailsDataEntity1.getDonorName());
+                DonationHistoryDataEntity donationHistoryDataEntity = new DonationHistoryDataEntity();
+                donationHistoryDataEntity.setOrphanageNamee(donationDetailsDataEntity1.getOrphanageName());
+                donationHistoryDataEntity.setDonatedDate(donationDetailsDataEntity1.getEffectiveDate());
+                donationHistoryDataEntityList.add(donationHistoryDataEntity);
+            }
+            setRecycleView(donationHistoryDataEntityList);
+        }else{
+            tvNoData.setVisibility(View.VISIBLE);
+            imgNoData.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         }
-        setRecycleView(donationHistoryDataEntityList);
     }
 
     private void switchBtnClicked() {

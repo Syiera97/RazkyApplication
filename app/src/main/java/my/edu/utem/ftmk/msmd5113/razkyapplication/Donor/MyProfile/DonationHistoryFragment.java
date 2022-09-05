@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,7 +60,15 @@ public class DonationHistoryFragment extends Fragment {
                 if(details.getOrphanageName().equals(((MainActivity) getActivity()).getSelectedOrphanage())){
                     donor_name_val.setText(details.getDonorName());
                     recepient_name_val.setText(details.getOrphanageName());
-                    date_val.setText(details.getEffectiveDate());
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    try {
+                        Date date = format.parse(details.getEffectiveDate());
+                        format = new SimpleDateFormat("dd MMM yyyy 'at' hh:mm a");
+                        String strDate = format.format(date);
+                        date_val.setText(strDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     donor_amount_val.setText(details.getNoItemsDonated());
                     setRecycleView(details.getDonationItem());
                 }

@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationItem;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.StockDetails;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.R;
 
@@ -39,13 +41,20 @@ public class DonateNowDetailsAdapter extends RecyclerView.Adapter<DonateNowDetai
 
     @Override
     public void onBindViewHolder(@NonNull DonateNowDetailsAdapter.DonateNowDetailsAdapterViewHolder holder, int i) {
-        if(stockDataEntityList != null){
-            StockDetails data = stockDataEntityList.get(i);
-            holder.tvItem.setText(data.getProductName());
-            holder.tvCurrentStock.setText(String.valueOf(data.getCurrentStock()));
-            holder.tvMinStock.setText(String.valueOf(data.getMinStock()));
-            holder.tvStockRequire.setText(String.valueOf(data.getStockRequire()));
-        }
+//        if(stockDataEntityList != null){
+//            StockDetails data = stockDataEntityList.get(i);
+//            holder.tvItem.setText(data.getProductName());
+//            holder.tvCurrentStock.setText(String.valueOf(data.getCurrentStock()));
+//            holder.tvMinStock.setText(String.valueOf(data.getMinStock()));
+//            holder.tvStockRequire.setText(String.valueOf(data.getStockRequire()));
+//        }
+
+        StockDetails data = new StockDetails((Map<String, String>) stockDataEntityList.get(i));
+        holder.tvItem.setText(data.getProductName());
+        holder.tvCurrentStock.setText(String.valueOf(data.getCurrentStock()));
+        holder.tvMinStock.setText(String.valueOf(data.getMinStock()));
+        holder.tvStockRequire.setText(String.valueOf(data.getStockRequire()));
+
     }
 
     @Override

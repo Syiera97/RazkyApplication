@@ -41,9 +41,11 @@ public class CompletedDonationAdapter extends RecyclerView.Adapter<CompletedDona
 
     @Override
     public void onBindViewHolder(@NonNull CompletedDonationAdapter.CompletedDonationAdapterViewHolder holder, int position) {
-        DonationItem data = new DonationItem((Map<String, String>) donationItems.get(position));
-        holder.item_name.setText(data.getProductName());
-        holder.quantity.setText(data.getQuantity() + " qty");
+//        DonationItem data = new DonationItem((Map<String, String>) donationItems.get(position));
+//        holder.item_name.setText(data.getProductName());
+//        holder.quantity.setText(data.getQuantity() + " qty");
+        holder.item_name.setText(donationItems.get(position).getProductName());
+        holder.quantity.setText(donationItems.get(position).getQuantity() + " qty");
     }
 
     @Override

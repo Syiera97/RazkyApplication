@@ -1,9 +1,13 @@
 package my.edu.utem.ftmk.msmd5113.razkyapplication;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +19,37 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import my.edu.utem.ftmk.msmd5113.razkyapplication.DataModel.DonationDetailsDataEntity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.Login.LoginActivity;
+import my.edu.utem.ftmk.msmd5113.razkyapplication.Donor.Login.LoginCaretakerActivity;
 import my.edu.utem.ftmk.msmd5113.razkyapplication.databinding.ActivityMainCaretakerBinding;
 
 public class MainCaretakerActivity extends AppCompatActivity {
 
     private ActivityMainCaretakerBinding binding;
     private DonationDetailsDataEntity dataEntity;
+    private Menu menuList;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menuList = menu;
+        menu.findItem(R.id.edit).setVisible(false);
+        menu.findItem(R.id.add).setVisible(false);
+        menu.findItem(R.id.save).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.logOut){
+            Intent intent = new Intent(MainCaretakerActivity.this, LoginCaretakerActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

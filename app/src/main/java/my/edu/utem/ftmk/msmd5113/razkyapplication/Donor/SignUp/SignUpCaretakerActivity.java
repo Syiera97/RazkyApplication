@@ -135,7 +135,7 @@ public class SignUpCaretakerActivity extends AppCompatActivity {
         dbDonor.add(caretakerDataEntity).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(SignUpCaretakerActivity.this, "Your details has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpCaretakerActivity.this, "Data added into Firebase Firestore successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

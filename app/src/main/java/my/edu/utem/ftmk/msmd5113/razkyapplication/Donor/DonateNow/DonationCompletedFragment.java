@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,9 +54,9 @@ public class DonationCompletedFragment extends Fragment {
     @BindView(R.id.rv_items)
     RecyclerView recyclerView;
     List<StockDetails> stockDataEntityList;
+    List<DonationItem> donationItemList = new ArrayList<>();
     OrphanageDataEntity orphanageDataEntity;
     CompletedDonationAdapter completedDonationAdapter;
-    List<DonationItem> donationItemList = new ArrayList<>();
     DonorDataEntity donorDataEntity;
     private FirebaseFirestore db;
 
@@ -78,12 +81,13 @@ public class DonationCompletedFragment extends Fragment {
             donor_amount_val.setText(orphanageDataEntity.getTotalItemsRequire());
             recepient_name_val.setText(orphanageDataEntity.getOrphanageName());
             date_val.setText(orphanageDataEntity.getUpdatedDate());
-            DonationItem donationItem = new DonationItem();
             for(int i = 0; i < stockDataEntityList.size(); i++){
-                donationItem.setProductName(stockDataEntityList.get(i).getProductName());
-                donationItem.setQuantity(stockDataEntityList.get(i).getStockRequire());
-                donationItem.setCurrentStock(stockDataEntityList.get(i).getCurrentStock());
-                donationItem.setMinStock(stockDataEntityList.get(i).getMinStock());
+                DonationItem donationItem = new DonationItem();
+                StockDetails data = new StockDetails((Map<String, String>) stockDataEntityList.get(i));
+                donationItem.setProductName(data.getProductName());
+                donationItem.setQuantity(data.getStockRequire());
+                donationItem.setCurrentStock(data.getCurrentStock());
+                donationItem.setMinStock(data.getMinStock());
                 donationItem.setProductImage("-");
                 donationItemList.add(donationItem);
             }
@@ -104,6 +108,7 @@ public class DonationCompletedFragment extends Fragment {
         recyclerView.setAdapter(completedDonationAdapter);
 
         saveDonation();
+        deleteOrphanageData();
     }
 
     private void saveDonation() {
@@ -119,12 +124,25 @@ public class DonationCompletedFragment extends Fragment {
         dbDonor.add(donationDetailsDataEntity).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(), "Your details has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Data added into Firebase Firestore successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(), "Fail to add course \n" + e, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteOrphanageData(){
+        db.collection("orphanageDetails").document(orphanageDataEntity.getDbKey()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getContext(), "Data has been deleted from Database.", Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(getContext(), "Fail to delete the course. ", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

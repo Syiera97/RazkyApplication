@@ -141,13 +141,13 @@ public class SignUpDonorActivity extends AppCompatActivity {
     }
 
     private void saveDonorData() {
-        DonorDataEntity donorDataEntity = new DonorDataEntity(etID.getText().toString(), etName.getText().toString(), etEmail.getText().toString(), cb_anonymous.isChecked(), etPhone.getText().toString());
+        DonorDataEntity donorDataEntity = new DonorDataEntity(etName.getText().toString(), etEmail.getText().toString(), cb_anonymous.isChecked(), etPhone.getText().toString());
 
         CollectionReference dbDonor = db.collection("donorDetails");
         dbDonor.add(donorDataEntity).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(SignUpDonorActivity.this, "Your details has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpDonorActivity.this, "Data added into Firebase Firestore successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
